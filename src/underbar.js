@@ -161,6 +161,21 @@ var _ = { };
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
+
+    var temp = list.slice(0);  //Why do I need to do this??
+
+    if (Array.isArray(list)) {
+      for (var i=0;i<list.length;i++) {
+        console.log(list[i]);
+        temp[i][methodName]();
+      }
+    } else { 
+      for (var key in list) {    //TODO 
+      }
+    }
+
+    return temp;
+
   };
 
   // Reduces an array or object to a single value by repetitively calling
