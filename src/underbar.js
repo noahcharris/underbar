@@ -166,8 +166,8 @@ var _ = { };
 
     if (Array.isArray(list)) {
       for (var i=0;i<list.length;i++) {
-        console.log(list[i]);
-        temp[i][methodName]();
+        //console.log(list[i]);
+        temp[i][methodName](args);
       }
     } else { 
       for (var key in list) {    //TODO 
@@ -192,6 +192,18 @@ var _ = { };
   //   }, 0); // should be 6
   //
   _.reduce = function(collection, iterator, initialValue) {
+    var previous = 0;
+    if (initialValue)
+      previous = initialValue;
+    if (Array.isArray(collection)) {
+      for (var i=0;i<collection.length;i++) {
+        previous = iterator(previous, collection[i]);
+      }
+    } else {
+        //TODO
+    }
+
+    return previous;
   };
 
   // Determine if the array or object contains a given value (using `===`).
