@@ -237,6 +237,13 @@ var _ = { };
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    return _.reduce(collection, function(previous, item) {
+      if (previous)
+        return true;
+      if (iterator(item))    //TODO
+        return true;
+      return false;
+    }, false);
   };
 
 
@@ -258,12 +265,28 @@ var _ = { };
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function(obj) {
+  _.extend = function(obj, input, input2) { //How do I use multiple sources in a different way?
+    for (var key in input) {
+      obj[key] = input[key];
+    }
+    for (var key in input2) {
+      obj[key] = input2[key];
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
-  _.defaults = function(obj) {
+  _.defaults = function(obj, input, input2) {
+    for (var key in input) {
+      if (!obj.hasOwnProperty(key))
+        obj[key] = input[key];
+    }
+    for (var key in input2) {
+      if (!obj.hasOwnProperty(key))
+        obj[key] = input2[key];
+    }
+    return obj;
   };
 
 
@@ -288,7 +311,7 @@ var _ = { };
     return function(){
       if(!alreadyCalled){
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+        // information from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
