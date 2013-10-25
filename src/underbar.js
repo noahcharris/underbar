@@ -364,9 +364,8 @@ var _ = { };
 
       var args = Array.prototype.slice.call(arguments);
       var newArgs = args.slice(2);
-      console.log(newArgs);
       setTimeout(function() { func.apply(this, newArgs) }, wait);
-      
+
   };
 
 
@@ -377,6 +376,14 @@ var _ = { };
 
   // Shuffle an array.
   _.shuffle = function(array) {
+    var temp = array.slice(0);
+    var j;
+    for (var i=0;i<array.length*3;i++) {
+      j = Math.floor((Math.random() * array.length));
+      var x = temp.splice(j, 1);
+      temp.push(x[0]);
+    }
+    return temp;
   };
 
 
