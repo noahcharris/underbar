@@ -343,7 +343,6 @@ var _ = { };
 
 
     };
-
     console.log(func(n));
     if (Object.keys(results).indexOf(arguments[0]) != -1) {
       return results[arguments[0]];
@@ -351,7 +350,8 @@ var _ = { };
       r = func.apply(this, arguments);
       results[arguments[0]] = r;
       return r;
-    }
+    };
+
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -361,6 +361,12 @@ var _ = { };
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+
+      var args = Array.prototype.slice.call(arguments);
+      var newArgs = args.slice(2);
+      console.log(newArgs);
+      setTimeout(function() { func.apply(this, newArgs) }, wait);
+      
   };
 
 
