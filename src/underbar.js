@@ -327,6 +327,31 @@ var _ = { };
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+
+    var store = {};
+    var result;
+
+    return function() {
+
+      if (Object.keys(store).indexOf(arguments[0]) != -1) {
+        return store[arguments[0]];
+      } else {
+        result = func.apply(this, arguments);
+        store[arguments[0]] = result;
+        return result;
+      }
+
+
+    };
+
+    console.log(func(n));
+    if (Object.keys(results).indexOf(arguments[0]) != -1) {
+      return results[arguments[0]];
+    } else {
+      r = func.apply(this, arguments);
+      results[arguments[0]] = r;
+      return r;
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
