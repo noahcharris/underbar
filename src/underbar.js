@@ -213,13 +213,6 @@ var _ = { };
     });
 
 
-   //   for (var i=0;i<collection.length;i++) {
-   //     previous = iterator(previous, collection[i]);
-   //   }
-   // } else {
-   //     //TODO
-   // }
-
     return previous;
   };
 
@@ -254,10 +247,19 @@ var _ = { };
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if (!collection.length)
+      return false;
+    if (iterator === undefined) {
+      iterator = function(x) {
+        return x;
+      }
+    }
+
+
     return _.reduce(collection, function(previous, item) {
       if (previous)
         return true;
-      if (iterator(item))    //TODO
+      if (iterator(item))    
         return true;
       return false;
     }, false);
@@ -282,29 +284,37 @@ var _ = { };
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function(obj, input, input2) { //How do I use multiple sources in a different way?
-    for (var key in input) {
-      obj[key] = input[key];
-    }
-    for (var key in input2) {
-      obj[key] = input2[key];
-    }
+  _.extend = function(obj) { //How do I use multiple sources in a different way?
+    var arrayOfObjects = Array.prototype.slice.call(arguments,1);
+    _.each(arrayOfObjects, function(o) {
+      for (var key in o) {
+        obj[key] = o[key];
+      }
+    });
     return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
-  _.defaults = function(obj, input, input2) {
-    for (var key in input) {
-      if (!obj.hasOwnProperty(key))
-        obj[key] = input[key];
-    }
-    for (var key in input2) {
-      if (!obj.hasOwnProperty(key))
-        obj[key] = input2[key];
-    }
+  _.defaults = function(obj) {
+
+    var arrayOfObjects = Array.prototype.slice.call(arguments, 1);
+
+    _.each(arrayOfObjects, function(o) {
+      for (var key in o) {
+        if(!obj.hasOwnProperty(key))
+          obj[key] = o[key];
+      }
+    });
+
+   // for (var key in input) {
+   //   if (!obj.hasOwnProperty(key))
+   //     obj[key] = input[key];
+   // }
+ 
     return obj;
   };
+
 
 
   /**
