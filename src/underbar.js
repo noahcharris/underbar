@@ -76,20 +76,13 @@ var _ = { };
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, iterator) {
+
     var temp = [];
-    if (Array.isArray(collection)) {
-      for (var i=0;i<collection.length;i++) {
-        if (iterator(collection[i]))
-          temp.push(collection[i]);
-      }
-    } else {
-      
-      for (var element in collection) {
-        if (iterator(collection[element]))
-          temp.push(collection[element]);
-      }
-      
-    }
+    _.each(collection, function(item) {
+      if (iterator(item))
+        temp.push(item);
+    });
+ 
     return temp;
 
   };
@@ -177,10 +170,11 @@ var _ = { };
     }
 
 
-
-    _.each(temp, function(x) {
-      x[methodName](args);
-    });
+    if (typeof methodName === 'string') {
+      _.each(temp, function(x) {
+        x[methodName](args);
+      });
+    }
 
 
   
