@@ -163,16 +163,27 @@ var _ = { };
   _.invoke = function(list, methodName, args) {
 
     var temp = list.slice(0);  //Why do I need to do this??
-
-    if (Array.isArray(list)) {
-      for (var i=0;i<list.length;i++) {
-        //console.log(list[i]);
-        temp[i][methodName](args);
-      }
-    } else { 
-      for (var key in list) {    //TODO 
-      }
+    
+   // if (Array.isArray(list)) {
+   //   for (var i=0;i<list.length;i++) {
+   //     //console.log(list[i]);
+   //     temp[i][methodName](args);
+   //   }
+   // }
+    if (typeof methodName === 'function') {
+      _.each(temp, function(a) {
+        methodName.apply(a, args); //TODO
+      });
     }
+
+
+
+    _.each(temp, function(x) {
+      x[methodName](args);
+    });
+
+
+  
 
     return temp;
 
@@ -195,13 +206,19 @@ var _ = { };
     var previous = 0;
     if (initialValue)
       previous = initialValue;
-    if (Array.isArray(collection)) {
-      for (var i=0;i<collection.length;i++) {
-        previous = iterator(previous, collection[i]);
-      }
-    } else {
-        //TODO
-    }
+    
+
+    _.each(collection, function(value) {
+      previous = iterator(previous, value);
+    });
+
+
+   //   for (var i=0;i<collection.length;i++) {
+   //     previous = iterator(previous, collection[i]);
+   //   }
+   // } else {
+   //     //TODO
+   // }
 
     return previous;
   };
