@@ -429,6 +429,25 @@ var _ = { };
   _.zip = function() {
     var temp = [];
     var arrays = Array.prototype.slice.call(arguments);
+    var max = 0;
+
+    for (var i=0;i<arrays.length;i++) {
+      if (arrays[i].length > max)
+        max = arrays[i].length;
+    }
+
+    for (var i=0;i<max;i++) {
+      var t = [];
+      for (var j=0;j<arrays.length;j++) {
+        if (arrays[j][i]) {
+          t.push(arrays[j][i]);
+        } else {
+          t.push(undefined);
+        }
+      }
+      temp.push(t);
+    }
+    return temp;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
