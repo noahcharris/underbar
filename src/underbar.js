@@ -567,6 +567,14 @@ var _ = { };
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
+    var lastTime, timeDiff;
+    return function() {
+      //timeDiff = TODO - Need to find a way to subtract dates from one another
+      if (timeDiff < wait) {  
+        func();
+        lastTime = new Date();
+      }
+    };
   };
 
 }).call(this);
