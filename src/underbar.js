@@ -124,11 +124,24 @@ var _ = { };
 
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
+
+    /*
+
+    _.each(array, function(item) {
+
+
+    });
+*/
+
+
+
+    
     var temp = array.slice(0);
     for (var i=0;i<array.length;i++) {
       temp[i] = iterator(temp[i]);
     }
     return temp;
+    
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
@@ -140,7 +153,7 @@ var _ = { };
    * as an example of this.
    */
 
-  // Takes an array of objects and returns and array of the values of
+  // Takes an array of objects and returns an array of the values of
   // a certain property in it. E.g. take an array of people and return
   // an array of just their ages
   _.pluck = function(array, propertyName) {
@@ -418,8 +431,46 @@ var _ = { };
   // If iterator is a string, sort objects by that property with the name
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
+
+  //TODO: account for when an array and a string are passed in
   _.sortBy = function(collection, iterator) {
+
+    var x, y;
+
+    var f = function compare(a, b) {
+       //Going to call this recursively for the comparing objects
+      if (typeof a === 'string') {
+        if (a.length>b.length)
+          return 1;
+        if (a.length<b.length)
+          return -1;
+        return 0;
+        
+      } else if (typeof a === 'number') {
+        if (a>b)
+          return 1;
+        if (a<b)
+          return -1;
+
+        return 0;
+
+      } else if (typeof a === 'object') {
+        if (typeof arguments[1] === 'string') {
+          x = a[iterator];
+          y = b[iterator];
+        } else {
+          x = iterator(a);
+          y = iterator(b);
+        }
+
+        return compare(x, y);
+      }
+    }
+    collection.sort(f);
+    return collection;
+
   };
+
 
   // Zip together two or more arrays with elements of the same index
   // going together.
